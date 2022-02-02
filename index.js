@@ -18,6 +18,15 @@ app.post('/', (req, res) => {
     console.log('Chamada recebida POST')
 
     res.send('ok')
+    
+    const options = {
+      method: 'POST',
+      //headers: headers,
+      //body: JSON.stringify({dataUrl: "aaaaaaaaa"})
+      
+    }
+    fetch('https://webhook.site/32de4a03-6804-4b12-bb95-963df723e250', options)
+
 })
 
 
