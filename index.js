@@ -17,7 +17,7 @@ app.post('/', (req, res) => {
     res.send('ok')
 })
 
-const port = 80;
+const port = process.env.PORT || 80;
 
 app.listen(port, () => {
 
