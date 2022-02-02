@@ -9,16 +9,16 @@ const port = process.env.PORT || 80;
 app.get('/', (req, res) => {
     //req.body.dataUrl;
     
-    console.log('Chamada recebida GET')
-    logger.info('Chamada recebida GET')
-    res.send('ok \n Porta: ' + port)
+    //console.log('Chamada recebida GET')
+    logger.info('=> Chamada recebida GET')
+    res.send('ok')
 })
 
 app.post('/', (req, res) => {
     //req.body.dataUrl;
     
-    console.log('Chamada recebida POST')
-    logger.info('Chamada recebida POST')
+    //console.log('Chamada recebida POST')
+    logger.info('=> Chamada recebida POST')
     res.send('ok')
 
 })
