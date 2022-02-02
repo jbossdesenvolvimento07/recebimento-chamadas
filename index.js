@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
 
+const port = process.env.PORT || 80;
+
+
 app.get('/', (req, res) => {
     //req.body.dataUrl;
     
     console.log('Chamada recebida GET')
 
-    res.send('ok')
+    res.send('ok \n Porta: ' + port)
 })
 
 app.post('/', (req, res) => {
@@ -17,7 +20,7 @@ app.post('/', (req, res) => {
     res.send('ok')
 })
 
-const port = process.env.PORT || 80;
+
 
 app.listen(port, () => {
 
