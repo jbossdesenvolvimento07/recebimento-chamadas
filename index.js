@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
     //req.body.dataUrl;
     
     //console.log('Chamada recebida GET')
-    logger.info('=> Chamada recebida GET')
+    console.log('=> Chamada recebida GET')
 
     fetch('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c')
         .then(() => {logger.info('=> Requisição enviada para outro webhook')})
@@ -22,7 +22,7 @@ app.post('/', (req, res) => {
     //req.body.dataUrl;
     
     //console.log('Chamada recebida POST')
-    logger.info('=> Chamada recebida POST')
+    console.log('=> Chamada recebida POST')
     fetch('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c')
         .then(() => {logger.info('=> Requisição enviada para outro webhook')})
     res.send('ok')
