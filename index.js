@@ -31,7 +31,7 @@ app.post('/', (req, res) => {
 
     axios.post('https://enmtyhh3s7v07l7.m.pipedream.net', req.body)
       .then(() => {console.log('=> Requisição enviada para fora')})
-    axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
+    axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', {"teste": 123})
     .then(() => {console.log('=> Requisição enviada para fora')})
     
     
