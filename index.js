@@ -17,9 +17,9 @@ app.get('/', (req, res) => {
     /*console.log(req.body)
 
     axios.get('https://enmtyhh3s7v07l7.m.pipedream.net', req.body)
-      .then(() => {console.log('=> Requisição enviada para fora')})*/
+      .then(() => {console.log('=> Requisição enviada para fora')})
     axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
-    .then(() => {console.log('=> Requisição enviada para fora')})
+    .then(() => {console.log('=> Requisição enviada para fora')})*/
 
     res.send('ok')
 })
