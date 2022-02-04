@@ -27,7 +27,7 @@ app.post('/', (req, res) => {
     //console.log('Chamada recebida POST')
     console.log('=> Chamada recebida POST')
 
-    console.log(req.body)
+    console.log(JSON.stringify(req.body))
 
     axios.post('https://enmtyhh3s7v07l7.m.pipedream.net', req.body)
       .then(() => {console.log('=> Requisição enviada para fora')})
