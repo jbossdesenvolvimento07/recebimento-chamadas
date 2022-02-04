@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
     console.log('=> Chamada recebida GET')
 
     if (req.body.CallStatus) {
-        console.log(req.body.CallStatus)
+        console.log(req.body)
     }
 
     fetch('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c')
@@ -28,7 +28,7 @@ app.post('/', (req, res) => {
     console.log('=> Chamada recebida POST')
 
     if (req.body.CallStatus) {
-        console.log(req.body.CallStatus)
+        console.log(req.body)
     }
 
     fetch('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c')
