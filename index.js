@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const logger = require('heroku-logger')
+const axios = require('axios')
 
 
 const port = process.env.PORT || 80;
@@ -13,9 +13,9 @@ app.get('/', (req, res) => {
     console.log('=> Chamada recebida GET')
 
     console.log(req.body)
-    
-    fetch('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c')
-        .then(() => {logger.info('=> Requisição enviada para outro webhook')})
+
+    axios.post('https://enmtyhh3s7v07l7.m.pipedream.net', req.body)
+      .then(() => {console.log('=> Requisição enviada para fora')})
 
     res.send('ok')
 })
@@ -27,8 +27,8 @@ app.post('/', (req, res) => {
 
     console.log(req.body)
 
-    fetch('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c')
-        .then(() => {logger.info('=> Requisição enviada para outro webhook')})
+    axios.post('https://enmtyhh3s7v07l7.m.pipedream.net', req.body)
+      .then(() => {console.log('=> Requisição enviada para fora')})
     
     
     res.send('ok')
