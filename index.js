@@ -151,12 +151,25 @@ function handleCall(callEvent, res) {
 }
 
 
-var config = {
+/*var config = {
     user:  process.env.DB_USER,
     password: process.env.DB_PASS,
     server:  process.env.DB_HOST, 
     port:  Number(process.env.DB_PORT),
     database:  process.env.DB_NAME ,
+    requestTimeout: 60000,
+    options: {
+        encrypt: false,
+        enableArithAbort: true
+    }
+};*/
+
+var config = {
+    user:  'jboss.consulta.06',
+    password: 'consulta06@jboss',
+    server:  'encopelx.no-ip.biz', 
+    port:  5023,
+    database:  'JM2Online_OLD' ,
     requestTimeout: 60000,
     options: {
         encrypt: false,
