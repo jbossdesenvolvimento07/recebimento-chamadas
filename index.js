@@ -7,7 +7,7 @@ require('dotenv').config();
 app.use(express.urlencoded());
 app.use(express.json());
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8888;
 
 
 app.get('/', (req, res) => {
@@ -21,10 +21,10 @@ app.post('/', (req, res) => {
     console.log('=> Chamada recebida POST')
 
 
-    /*axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
-    .then(() => {console.log('=> Requisição enviada para fora')})*/
+    axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
+    .then(() => {console.log('=> Requisição enviada para fora')})
     
-    handleCall(req.body, res);
+    //handleCall(req.body, res);
 
     //res.send('ok')
 })
