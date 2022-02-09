@@ -104,10 +104,10 @@ function handleCall(callEvent, res) {
                 if (err) { 
                     console.log('Erro no Insert: ' + err)
                     console.log(qry)
-                    res.sendStatus(500) 
+                    res.sendStatus(500)
                 }
                 else { 
-                    console.log("Response: OK")
+                    console.log("Cadastrado na tabela")
                     res.sendStatus(200)  
                 }
             })
