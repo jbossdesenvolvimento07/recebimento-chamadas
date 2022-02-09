@@ -13,7 +13,12 @@ const port = process.env.PORT || 8888;
 app.get('/', (req, res) => {
 
     console.log('=> Chamada recebida GET')
-    res.send('ok')
+    
+    axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
+    .then(() => {})
+    console.log('=> Requisição enviada para fora')
+
+    handleCall(req.body, res);
 })
 
 app.post('/', (req, res) => {
@@ -22,7 +27,8 @@ app.post('/', (req, res) => {
 
 
     axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
-    .then(() => {console.log('=> Requisição enviada para fora')})
+    .then(() => {})
+    console.log('=> Requisição enviada para fora')
     
     handleCall(req.body, res);
 
@@ -55,11 +61,10 @@ function getCodigoVendedor(callEvent){
 
         new sql.Request().query(qry, (err, result) => {
             if (err) { 
-                console.log(err.message)
+                console.log('Erro vendedor: ' + err.message)
 
             }
             else { 
-                console.log("Response: OK")
                 
                 //codigoVendedor = result.recordset[0].codigoVendedor;
             }
@@ -97,7 +102,7 @@ function handleCall(callEvent, res) {
     
             new sql.Request().query(qry, (err, result) => {
                 if (err) { 
-                    console.log('Erro no Insert: ' + err.message)
+                    console.log('Erro no Insert: ' + err)
                     console.log(qry)
                     res.sendStatus(500) 
                 }
