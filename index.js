@@ -24,7 +24,7 @@ app.post('/', (req, res) => {
     axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
     .then(() => {console.log('=> Requisição enviada para fora')})
     
-    //handleCall(req.body, res);
+    handleCall(req.body, res);
 
     //res.send('ok')
 })
@@ -76,11 +76,14 @@ function handleCall(callEvent, res) {
 
     if(callEvent.CallStatus == "ANSWER"){
         const idChamada = callEvent.CallID.split('.')[0]
-        const fonte = ''
-        const destino = ''
+        let fonte = '0000'
+        let destino = '0000'
+
         if(callEvent.CallFlow == 'out'){
             fonte = callEvent.CallerExtension.substring(5)
+            
         }else{
+            fonte = callEvent.CallerIDNum
             destino = callEvent.CalledExtension.substring(5)
         }
 
@@ -94,7 +97,8 @@ function handleCall(callEvent, res) {
     
             new sql.Request().query(qry, (err, result) => {
                 if (err) { 
-                    console.log(err.message)
+                    console.log('Erro no Insert: ' + err.message)
+                    console.log(qry)
                     res.sendStatus(500) 
                 }
                 else { 
