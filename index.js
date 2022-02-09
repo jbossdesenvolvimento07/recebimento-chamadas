@@ -102,8 +102,11 @@ function handleCall(callEvent, res) {
     
             new sql.Request().query(qry, (err, result) => {
                 if (err) { 
-                    console.log('Erro no Insert: ' + err)
+                    console.log('')
+                    console.log('----------- Erro -----------')
+                    console.log(err)
                     console.log(qry)
+                    console.log('----------------------------')
                     res.sendStatus(500)
                 }
                 else { 
@@ -135,8 +138,12 @@ function handleCall(callEvent, res) {
     
                 new sql.Request().query(qry, (err, result) => {
                     if (err) { 
-                        console.log(err.message)
-                        res.sendStatus(500) 
+                        console.log('')
+                        console.log('----------- Erro -----------')
+                        console.log(err)
+                        console.log(qry)
+                        console.log('----------------------------')
+                        res.sendStatus(500)
                     }
                     else { 
                         console.log("Response: OK")
