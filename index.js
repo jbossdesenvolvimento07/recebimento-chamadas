@@ -14,11 +14,11 @@ app.get('/', (req, res) => {
 
     console.log('=> Chamada recebida GET')
     
-    axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
+    /*axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
     .then(() => {})
-    console.log('=> Requisição enviada para fora')
+    console.log('=> Requisição enviada para fora')*/
 
-    handleCall(req.body, res);
+    //handleCall(req.body, res);
 })
 
 app.post('/', (req, res) => {
