@@ -125,7 +125,18 @@ function handleCall(callEvent, res) {
 
         let fonte = '0000'
         let destino = '0000'
+        if(callEvent.CallFlow == 'out'){
+            fonte = callEvent.CallerExtension.substring(5)
+            
+        }else{
+            fonte = callEvent.CallerIDNum
+            destino = callEvent.CalledExtension.substring(5)
+        }
 
+
+
+
+        
         sql.connect(config, (err) => {
             if (err) console.log(err)
         })
