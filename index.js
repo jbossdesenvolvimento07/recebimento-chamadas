@@ -13,15 +13,17 @@ const port = process.env.PORT || 8888;
 app.get('/', (req, res) => {
 
     console.log('=> Chamada recebida GET')
+
+    console.log('--------- GET ---------')
+    console.log(req.query)  
+    console.log('-----------------------')
     
     /*axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.query)
     .then(() => {})
     console.log('=> Requisição enviada para fora')
 */  
-    console.log('--------- GET ---------')
-    console.log(req.query)  
-    console.log('-----------------------')
-    //handleCall(req.body, res);
+    
+    handleCall(req.query, res);
 
     res.send('OK')
 })
@@ -29,6 +31,10 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
 
     console.log('=> Chamada recebida POST')
+
+    console.log('--------- GET ---------')
+    console.log(req.body)  
+    console.log('-----------------------')
 
 
     axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
