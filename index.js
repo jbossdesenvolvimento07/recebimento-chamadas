@@ -66,7 +66,7 @@ function getCodigoVendedor(callEvent){
             }
             else { 
                 
-                codigoVendedor = result.recordset[0].codigoVendedor;
+                //codigoVendedor = result.recordset[0].codigoVendedor;
             }
         })
     })
