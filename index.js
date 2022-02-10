@@ -111,7 +111,7 @@ function handleCall(callEvent, res) {
                 }
                 else { 
                     console.log("Cadastrado na tabela")
-                    res.sendStatus(200)  
+                    
                 }
             })
         })
@@ -166,10 +166,12 @@ function handleCall(callEvent, res) {
 
 
 
-
+        
         
 
     }
+
+    res.sendStatus(200)  
 
 
 }
