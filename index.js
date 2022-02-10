@@ -110,7 +110,7 @@ function handleCall(callEvent, res) {
                     res.sendStatus(500)
                 }
                 else { 
-                    console.log("Cadastrado na tabela")
+                    console.log("Cadastrado na tabela temp")
                     
                 }
             })
@@ -123,7 +123,8 @@ function handleCall(callEvent, res) {
         const idChamada = callEvent.CallID.split('.')[0];
         var duracao;
 
-
+        let fonte = '0000'
+        let destino = '0000'
 
         sql.connect(config, (err) => {
             if (err) console.log(err)
@@ -171,6 +172,7 @@ function handleCall(callEvent, res) {
 
     }
 
+    console.log("Cadastrado na tabela final")
     res.sendStatus(200)  
 
 
