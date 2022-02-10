@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
     //handleCall(req.body, res);
 
-    res.sendStatus(200)
+    res.send('OK')
 })
 
 app.post('/', (req, res) => {
@@ -178,15 +178,15 @@ function handleCall(callEvent, res) {
         })
 
 
-
+        console.log("Cadastrado na tabela final")
 
         
         
 
     }
 
-    console.log("Cadastrado na tabela final")
-    res.sendStatus(200)  
+    
+    res.send('OK')
 
 
 }
