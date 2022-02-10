@@ -19,6 +19,8 @@ app.get('/', (req, res) => {
     console.log('=> Requisição enviada para fora')*/
 
     //handleCall(req.body, res);
+
+    res.sendStatus(200)
 })
 
 app.post('/', (req, res) => {
@@ -136,7 +138,7 @@ function handleCall(callEvent, res) {
 
 
 
-        
+
         sql.connect(config, (err) => {
             if (err) console.log(err)
         })
