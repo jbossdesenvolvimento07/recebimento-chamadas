@@ -66,7 +66,7 @@ function getCodigoVendedor(callEvent){
             }
             else { 
                 
-                //codigoVendedor = result.recordset[0].codigoVendedor;
+                codigoVendedor = result.recordset[0].codigoVendedor;
             }
         })
     })
@@ -97,7 +97,7 @@ function handleCall(callEvent, res) {
             if (err) console.log(err)
     
             console.log(getCodigoVendedor(callEvent))
-            let qry = `INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, status, codigoVendedor)
+            let qry = `INSERT INTO ChamadasTemp (idChamada, dataHora, fonte, destino, duracao, status, codigoVendedor)
                         VALUES (${idChamada}, GETDATE(), ${fonte}, ${destino}, 0, 'A', ${getCodigoVendedor(callEvent)})`;
     
             new sql.Request().query(qry, (err, result) => {
@@ -123,39 +123,51 @@ function handleCall(callEvent, res) {
         const idChamada = callEvent.CallID.split('.')[0];
         var duracao;
 
+
+
         sql.connect(config, (err) => {
             if (err) console.log(err)
+        })
+        let qry = `SELECT DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = ${idChamada}`
+        sql.query(qry, (err,result) => {
+            if (err){
+                console.log('')
+                console.log('----------- Erro -----------')
+                console.log(err)
+                console.log(qry)
+                console.log('----------------------------')
+                res.sendStatus(500)
+                return
+            }
 
-            let qry = `SELECT DATEDIFF(second, dataHora, GETDATE()) duracao FROM Chamadas WHERE idChamada = ${idChamada}`
-            
-            new sql.Request().query(qry, (err,result ) => {
-                duracao = result.recordset[0].duracao
+            duracao = result.recordset[0].duracao
+        })
 
 
-                qry = `UPDATE Chamadas
-                        SET status = 'F', destino = ${callEvent.CalledNumber}, duracao = ${duracao}
-                        WHERE idChamada = ${idChamada};`;
-    
-                new sql.Request().query(qry, (err, result) => {
-                    if (err) { 
-                        console.log('')
-                        console.log('----------- Erro -----------')
-                        console.log(err)
-                        console.log(qry)
-                        console.log('----------------------------')
-                        res.sendStatus(500)
-                    }
-                    else { 
-                        console.log("Response: OK")
-                        res.sendStatus(200)  
-                    }
-                })
 
-            })
-    
-
+        sql.connect(config, (err) => {
+            if (err) console.log(err)
+        })
+        qry = ` INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, status, codigoVendedor)
+                VALUES (${idChamada}, GETDATE(), ${fonte}, ${destino}, ${duracao}, 'F', ${getCodigoVendedor(callEvent)})`;
+        sql.query(qry, (err,result) => {
+            if (err){
+                console.log('')
+                console.log('----------- Erro -----------')
+                console.log(err)
+                console.log(qry)
+                console.log('----------------------------')
+                res.sendStatus(500)
+                return
+            }
             
         })
+
+
+
+
+
+        
 
     }
 
