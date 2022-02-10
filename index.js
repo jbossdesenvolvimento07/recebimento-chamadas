@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
     console.log('=> Chamada recebida GET')
     
-    axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.params)
+    axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.query)
     .then(() => {})
     console.log('=> Requisição enviada para fora')
 
