@@ -87,8 +87,10 @@ function getCodigoVendedor(callEvent){
 
 function handleCall(callEvent, res) {
     
-    if(callEvent.CallerIDNum == "9990")
+    if(callEvent.CallerIDNum == "9990"){
+        res.send('OK')
         return;
+    }
 
     if(callEvent.CallStatus == "ANSWER"){
         const idChamada = callEvent.CallID.split('.')[0]
