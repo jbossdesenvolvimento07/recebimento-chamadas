@@ -12,7 +12,7 @@ const port = process.env.PORT || 8888;
 
 app.get('/', (req, res) => {
 
-    /*console.log('=> Chamada recebida GET')
+    console.log('=> Chamada recebida GET')
 
     console.log('--------- GET ---------')
     console.log(req.query)  
@@ -25,12 +25,12 @@ app.get('/', (req, res) => {
     
     handleCall(req.query, res);
 
-    res.send('OK')*/ 
+    res.send('OK')
 })
 
 app.post('/', (req, res) => {
 
-    /*console.log('=> Chamada recebida POST')
+    console.log('=> Chamada recebida POST')
 
     console.log('--------- GET ---------')
     console.log(req.body)  
@@ -41,9 +41,9 @@ app.post('/', (req, res) => {
     .then(() => {})
     console.log('=> Requisição enviada para fora')
     
-    handleCall(req.body, res);*/
+    handleCall(req.body, res);
 
-    //res.send('ok')
+    res.send('ok')
 })
 
 
