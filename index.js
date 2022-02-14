@@ -12,7 +12,7 @@ const port = process.env.PORT || 8888;
 
 app.get('/', (req, res) => {
 
-    console.log('=> Chamada recebida GET')
+    /*console.log('=> Chamada recebida GET')
 
     console.log('--------- GET ---------')
     console.log(req.query)  
@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
     
     handleCall(req.query, res);
 
-    res.send('OK')
+    res.send('OK')*/
 })
 
 app.post('/', (req, res) => {
