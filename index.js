@@ -95,7 +95,7 @@ async function getDuracao(idChamada) {
         sql.connect(config, (err) => {
             if (err) console.log(err)
         })
-        let qry = `SELECT DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = ${idChamada}`
+        let qry = `SELECT TOP 1 DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = ${idChamada}`
         let result = await sql.query(qry)
 
         console.log(result)
@@ -111,6 +111,22 @@ async function getDuracao(idChamada) {
     }
 }
 
+async function apagarRegistroTemp(idChamada) {
+    try{
+
+        sql.connect(config, (err) => {
+            if (err) console.log(err)
+        })
+        let qry = `DELETE FROM ChamadasTemp WHERE idChamada = ${idChamada}`
+        let result = await sql.query(qry)
+
+        return result
+
+    }catch (err) {
+
+        throw(err)
+    }
+}
 
 function handleCall(callEvent, res) {
 
@@ -180,11 +196,12 @@ function handleCall(callEvent, res) {
         getDuracao(idChamada)
             .then((duracao) => {
 
+                if((duracao == 0) || (duracao == ''))
+                    return
 
-                if((callEvent.CallFlow == 'out') && (duracao < 30)){
+                if((callEvent.CallFlow == 'out') && (duracao < 30))
                     status = 'Z'
-                }
-
+                
 
 
                 sql.connect(config, (err) => {
@@ -201,6 +218,8 @@ function handleCall(callEvent, res) {
                         console.log('----------------------------')
                         return
                     }
+
+                    apagarRegistroTemp()
 
                     console.log("Cadastrado na tabela final")
         
