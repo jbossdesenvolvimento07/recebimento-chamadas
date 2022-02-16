@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 
-    console.log('\n\n')
+    /*console.log('\n\n')
     console.log('--------- POST ---------')
     console.log(req.body)
     console.log('-----------------------')
@@ -40,7 +40,7 @@ app.post('/', (req, res) => {
     .then(() => {})
     console.log('=> Requisição enviada para fora')
 
-    handleCall(req.body, res);
+    handleCall(req.body, res);*/
 
 })
 
@@ -173,6 +173,8 @@ function handleCall(callEvent, res) {
     //
     if (callEvent.CallStatus == "HANGUP") {
         const idChamada = callEvent.CallID.split('.')[0];
+
+
 
         let fonte = ''
         let destino = ''
