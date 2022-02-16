@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 
-    /*console.log('\n\n')
+    console.log('\n\n')
     console.log('--------- POST ---------')
     console.log(req.body)
     console.log('-----------------------')
@@ -40,7 +40,7 @@ app.post('/', (req, res) => {
     .then(() => {})
     console.log('=> Requisição enviada para fora')
 
-    handleCall(req.body, res);*/
+    handleCall(req.body, res);
 
 })
 
@@ -130,10 +130,9 @@ async function apagarRegistroTemp(idChamada) {
 
 function handleCall(callEvent, res) {
 
-    if (callEvent.CallFlow == 'in') {
-        if( callEvent.CalledExtension == '498699990')
-            return
-    }
+    
+    if( callEvent.CalledExtension == '498699990' || callEvent.CallerExtension == '498699990')
+        return
 
 
 
