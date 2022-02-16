@@ -219,7 +219,7 @@ function handleCall(callEvent, res) {
                         return
                     }
 
-                    apagarRegistroTemp()
+                    apagarRegistroTemp(idChamada)
 
                     console.log("Cadastrado na tabela final")
         
