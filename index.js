@@ -30,34 +30,37 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 
-    console.log('=> Chamada recebida POST')
-
-    console.log('--------- GET ---------')
-    console.log(req.body)  
+    console.log('\n\n')
+    console.log('--------- POST ---------')
+    console.log(req.body)
     console.log('-----------------------')
 
 
     axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
     .then(() => {})
     console.log('=> Requisição enviada para fora')
-    
+
     handleCall(req.body, res);
 
-    res.send('ok')
 })
 
 
 
 app.listen(port, () => {
-
-
     console.log('Listening on port ' + port)
+
+    global.con = sql.connect(config, (err) => {
+        if (err) console.log(err)
+    })
 })
 
-function getCodigoVendedor(callEvent){
-    let codigoVendedor = '0000'
-    let ramal 
-    if(callEvent.CallFlow == 'out')
+
+
+
+function getCodigoVendedor(callEvent) {
+    let codigoVendedor = '-1'
+    let ramal
+    if (callEvent.CallFlow == 'out')
         ramal = callEvent.CallerExtension.substring(5)
     else
         ramal = callEvent.CalledExtension.substring(5)
@@ -71,12 +74,12 @@ function getCodigoVendedor(callEvent){
                         WHERE r.ramal = ${ramal}`
 
         new sql.Request().query(qry, (err, result) => {
-            if (err) { 
+            if (err) {
                 console.log('Erro vendedor: ' + err.message)
 
             }
-            else { 
-                
+            else {
+
                 //codigoVendedor = result.recordset[0].codigoVendedor;
             }
         })
@@ -85,46 +88,63 @@ function getCodigoVendedor(callEvent){
     return codigoVendedor
 }
 
+async function getDuracao(idChamada) {
+    try {
+        let duracao = 0
+
+        sql.connect(config, (err) => {
+            if (err) console.log(err)
+        })
+        let qry = `SELECT DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = ${idChamada}`
+        let result = await sql.query(qry)
+
+        console.log(result)
+
+        duracao = result.recordset[0].duracao
+
+        return duracao
+
+    } catch (err) {
+
+        throw (err)
+
+    }
+}
+
+
 function handleCall(callEvent, res) {
-    
-    if(callEvent.CallerIDNum == "9990"){
-        res.send('OK')
-        return;
+
+    if (callEvent.CallFlow == 'in') {
+        if( callEvent.CalledExtension == '498699990')
+            return
     }
 
-    if(callEvent.CallStatus == "ANSWER"){
-        const idChamada = callEvent.CallID.split('.')[0]
-        let fonte = '0000'
-        let destino = '0000'
 
-        if(callEvent.CallFlow == 'out'){
-            fonte = callEvent.CallerExtension.substring(5)
-            
-        }else{
-            fonte = callEvent.CallerIDNum
-            destino = callEvent.CalledExtension.substring(5)
-        }
+
+    //
+    //ANSWER
+    //
+    if (callEvent.CallStatus == "ANSWER") {
+        const idChamada = callEvent.CallID.split('.')[0]
 
 
         sql.connect(config, (err) => {
             if (err) console.log(err)
-    
-            console.log(getCodigoVendedor(callEvent))
-            let qry = `INSERT INTO ChamadasTemp (idChamada, dataHora, fonte, destino, duracao, status, codigoVendedor)
-                        VALUES (${idChamada}, GETDATE(), ${fonte}, ${destino}, 0, 'A', ${getCodigoVendedor(callEvent)})`;
-    
+
+            let qry = `INSERT INTO ChamadasTemp (idChamada, dataHora)
+                        VALUES (${idChamada}, GETDATE())`;
+
             new sql.Request().query(qry, (err, result) => {
-                if (err) { 
+                if (err) {
                     console.log('')
                     console.log('----------- Erro -----------')
                     console.log(err)
-                    console.log(qry)
+                    console.log('>>>>>> ' + qry)
                     console.log('----------------------------')
-                    res.sendStatus(500)
                 }
-                else { 
+                else {
                     console.log("Cadastrado na tabela temp")
-                    
+
                 }
             })
         })
@@ -132,71 +152,69 @@ function handleCall(callEvent, res) {
     }
 
 
-    if(callEvent.CallStatus == "HANGUP"){
+    //
+    //HANGUP
+    //
+    if (callEvent.CallStatus == "HANGUP") {
         const idChamada = callEvent.CallID.split('.')[0];
-        var duracao;
 
-        let fonte = '0000'
-        let destino = '0000'
-        if(callEvent.CallFlow == 'out'){
+        let fonte = ''
+        let destino = ''
+        let lastapp = ''
+        let status = ''
+        if (callEvent.CallFlow == 'out') {
             fonte = callEvent.CallerExtension.substring(5)
-            
-        }else{
+            destino = callEvent.CalledNumber
+            lastapp = '1'
+
+        } else {
             fonte = callEvent.CallerIDNum
             destino = callEvent.CalledExtension.substring(5)
+            lastapp = '2'
+
+            status = 'R'
         }
 
 
 
+        getDuracao(idChamada)
+            .then((duracao) => {
 
 
-        sql.connect(config, (err) => {
-            if (err) console.log(err)
-        })
-        let qry = `SELECT DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = ${idChamada}`
-        sql.query(qry, (err,result) => {
-            if (err){
-                console.log('')
-                console.log('----------- Erro -----------')
-                console.log(err)
-                console.log(qry)
-                console.log('----------------------------')
-                res.sendStatus(500)
-                return
-            }
-
-            duracao = result.recordset[0].duracao
-        })
+                if((callEvent.CallFlow == 'out') && (duracao < 30)){
+                    status = 'Z'
+                }
 
 
 
-        sql.connect(config, (err) => {
-            if (err) console.log(err)
-        })
-        qry = ` INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, status, codigoVendedor)
-                VALUES (${idChamada}, GETDATE(), ${fonte}, ${destino}, ${duracao}, 'F', ${getCodigoVendedor(callEvent)})`;
-        sql.query(qry, (err,result) => {
-            if (err){
-                console.log('')
-                console.log('----------- Erro -----------')
-                console.log(err)
-                console.log(qry)
-                console.log('----------------------------')
-                res.sendStatus(500)
-                return
-            }
-            
-        })
+                sql.connect(config, (err) => {
+                    if (err) console.log(err)
+                })
+                qry = ` INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, lastapp, disposition, status, codigoVendedor, codigoEntidade, obsChamada)
+                        VALUES (${idChamada}, GETDATE(), ${fonte}, ${destino}, ${duracao}, ${lastapp}, '', '${status}', ${getCodigoVendedor(callEvent)}, -1, '')`;
+                sql.query(qry, (err, result) => {
+                    if (err) {
+                        console.log('')
+                        console.log('----------- Erro -----------')
+                        console.log(err)
+                        console.log('\n>>>>>> ' + qry)
+                        console.log('----------------------------')
+                        return
+                    }
 
-
-        console.log("Cadastrado na tabela final")
-
+                    console.log("Cadastrado na tabela final")
         
-        
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
 
     }
 
-    
+
     res.send('OK')
 
 
@@ -217,11 +235,11 @@ function handleCall(callEvent, res) {
 };*/
 
 var config = {
-    user:  'jboss.consulta.06',
+    user: 'jboss.consulta.06',
     password: 'consulta06@jboss',
-    server:  'encopelx.no-ip.biz', 
-    port:  5023,
-    database:  'JM2Online_OLD' ,
+    server: 'encopelx.no-ip.biz',
+    port: 5023,
+    database: 'JM2Online_OLD',
     requestTimeout: 60000,
     options: {
         encrypt: false,
