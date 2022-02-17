@@ -218,6 +218,7 @@ function handleCall(callEvent, res) {
                         console.log('\n>>>>>> ' + qry)
                         console.log('----------------------------')
                         return
+                        
                     }
 
                     apagarRegistroTemp(idChamada)
@@ -258,8 +259,8 @@ var config = {
     user: 'jboss.consulta.06',
     password: 'consulta06@jboss',
     server: 'encopelx.no-ip.biz',
-    port: 5024,
-    database: 'JM2OnlineT',
+    port: 5023,
+    database: 'JM2Online_OLD',
     requestTimeout: 60000,
     options: {
         encrypt: false,
