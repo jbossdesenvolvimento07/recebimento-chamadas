@@ -36,11 +36,11 @@ app.post('/', (req, res) => {
     console.log('-----------------------')
 
 
-    axios.post('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.body)
+    axios.post('https://webhook.site/b189fa53-ef42-492e-b4e7-98f6a5a31d38', req.body)
     .then(() => {})
     console.log('=> Requisição enviada para fora')
 
-    handleCall(req.body, res);
+    /*handleCall(req.body, res);*/
 
 })
 
