@@ -147,7 +147,7 @@ function handleCall(callEvent, res) {
             if (err) console.log(err)
 
             let qry = `INSERT INTO ChamadasTemp (idChamada, dataHora)
-                        VALUES (${idChamada}, GETDATE())`;
+                        VALUES ('${idChamada}', GETDATE())`;
 
             new sql.Request().query(qry, (err, result) => {
                 if (err) {
