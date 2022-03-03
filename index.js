@@ -28,6 +28,12 @@ app.get('/', (req, res) => {
     res.send('OK')*/
 })
 
+app.post('/getRequisicoes', (req, res) => {
+
+    getRequisicoes(res)
+
+})
+
 app.post('/', (req, res) => {
 
     console.log('\n\n')
@@ -37,7 +43,7 @@ app.post('/', (req, res) => {
 
 
     axios.post('https://webhook.site/b189fa53-ef42-492e-b4e7-98f6a5a31d38', req.body)
-    .then(() => {})
+        .then(() => { })
     console.log('=> Requisição enviada para fora')
 
     handleCall(req.body, res);
@@ -58,7 +64,7 @@ app.listen(port, () => {
 
 
 
-function cadastrarRequisicao(callEvent){
+function cadastrarRequisicao(callEvent) {
     sql.connect(config, (err) => {
         if (err) console.log(err)
 
@@ -79,6 +85,20 @@ function cadastrarRequisicao(callEvent){
             }
         })
     })
+}
+
+function getRequisicoes(res) {
+    sql.connect(config, (err) => {
+        if (err) console.log(err)
+
+        const qry = `SELECT * FROM ChamadasAPI`
+
+        new sql.Request().query(qry, (err, result) => {
+            
+            res.send(result.recordset)
+        })
+    })
+
 }
 
 
@@ -141,7 +161,7 @@ async function getDuracao(idChamada) {
 }
 
 async function apagarRegistroTemp(idChamada) {
-    try{
+    try {
 
         sql.connect(config, (err) => {
             if (err) console.log(err)
@@ -151,16 +171,16 @@ async function apagarRegistroTemp(idChamada) {
 
         return result
 
-    }catch (err) {
+    } catch (err) {
 
-        throw(err)
+        throw (err)
     }
 }
 
 function handleCall(callEvent, res) {
 
-    
-    if( callEvent.CalledExtension == '498699990' || callEvent.CallerExtension == '498699990')
+
+    if (callEvent.CalledExtension == '498699990' || callEvent.CallerExtension == '498699990')
         return
 
 
@@ -203,7 +223,7 @@ function handleCall(callEvent, res) {
         //const idChamada = callEvent.CallID.split('.')[0];
         const idChamada = callEvent.CallAPIID
 
-        if(callEvent.CallerIDNum === '9999' || callEvent.CallerIDNum === '9990')
+        if (callEvent.CallerIDNum === '9999' || callEvent.CallerIDNum === '9990')
             return
 
 
@@ -230,12 +250,12 @@ function handleCall(callEvent, res) {
         getDuracao(idChamada)
             .then((duracao) => {
 
-                if((duracao == 0) || (duracao == ''))
+                if ((duracao == 0) || (duracao == ''))
                     return
 
-                if((callEvent.CallFlow == 'out') && (duracao < 30))
+                if ((callEvent.CallFlow == 'out') && (duracao < 30))
                     status = 'Z'
-                
+
 
 
                 sql.connect(config, (err) => {
@@ -251,13 +271,13 @@ function handleCall(callEvent, res) {
                         console.log('\n>>>>>> ' + qry)
                         console.log('----------------------------')
                         return
-                        
+
                     }
 
                     apagarRegistroTemp(idChamada)
 
                     console.log("Cadastrado na tabela final")
-        
+
                 })
             })
             .catch((err) => {
