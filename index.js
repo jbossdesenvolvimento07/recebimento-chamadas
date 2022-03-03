@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const sql = require('mssql');
+const cors = require('cors');
 require('dotenv').config();
 
+app.use(cors())
 app.use(express.urlencoded());
 app.use(express.json());
 
@@ -94,6 +96,12 @@ function getRequisicoes(res) {
         const qry = `SELECT * FROM ChamadasAPI`
 
         new sql.Request().query(qry, (err, result) => {
+
+            res.set({
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Origin": "*"
+            });
             
             res.send(result.recordset)
         })
