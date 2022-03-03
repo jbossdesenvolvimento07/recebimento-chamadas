@@ -140,8 +140,8 @@ function handleCall(callEvent, res) {
     //ANSWER
     //
     if (callEvent.CallStatus == "ANSWER") {
-        const idChamada = callEvent.CallID.split('.')[0]
-
+        //const idChamada = callEvent.CallID.split('.')[0]
+        const idChamada = callEvent.CallAPIID
 
         sql.connect(config, (err) => {
             if (err) console.log(err)
@@ -171,7 +171,8 @@ function handleCall(callEvent, res) {
     //HANGUP
     //
     if (callEvent.CallStatus == "HANGUP") {
-        const idChamada = callEvent.CallID.split('.')[0];
+        //const idChamada = callEvent.CallID.split('.')[0];
+        const idChamada = callEvent.CallAPIID
 
         if(callEvent.CallerIDNum === '9999' || callEvent.CallerIDNum === '9990')
             return
@@ -211,7 +212,7 @@ function handleCall(callEvent, res) {
                 sql.connect(config, (err) => {
                     if (err) console.log(err)
                 })
-                qry = ` INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, lastapp, disposition, status, codigoVendedor, codigoEntidade, obsChamada)
+                qry = ` INSERT INTO Chamadas (${callEvent.CallID.split('.')[0]}, dataHora, fonte, destino, duracao, lastapp, disposition, status, codigoVendedor, codigoEntidade, obsChamada)
                         VALUES (${idChamada}, GETDATE(), ${fonte}, ${destino}, ${duracao}, ${lastapp}, '', '${status}', ${getCodigoVendedor(callEvent)}, -1, '')`;
                 sql.query(qry, (err, result) => {
                     if (err) {
