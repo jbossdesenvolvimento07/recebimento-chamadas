@@ -175,7 +175,15 @@ async function apagarRegistroTemp(idChamada) {
             if (err) console.log(err)
         })
         let qry = `DELETE FROM ChamadasTemp WHERE idChamada = ${idChamada}`
-        let result = await sql.query(qry)
+        let result = await sql.query(qry, (err) => {
+            if (err) {
+                console.log('')
+                console.log('----------- Erro Deletando TEMP -----------')
+                console.log(err)
+                console.log('>>>>>> ' + qry)
+                console.log('-------------------------------------------')
+            }
+        })
 
         return result
 
@@ -198,8 +206,6 @@ function handleCall(callEvent, res) {
     if (callEvent.CalledExtension) {
 
         apagarRegistroTemp(idChamada)
-
-        return
     }
 
 
