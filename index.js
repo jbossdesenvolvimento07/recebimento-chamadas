@@ -102,7 +102,7 @@ function getRequisicoes(res) {
                 "Access-Control-Allow-Credentials": "true",
                 "Access-Control-Allow-Origin": "*"
             });
-            
+
             res.send(result.recordset)
         })
     })
@@ -187,16 +187,119 @@ async function apagarRegistroTemp(idChamada) {
 
 function handleCall(callEvent, res) {
 
+    const idChamada = callEvent.CallAPIID
 
-    if (callEvent.CalledExtension == '498699990' || callEvent.CallerExtension == '498699990')
+    //Ignora Filas
+    if (callEvent.CallerIDNum == '9999' || callEvent.CallerIDNum == '9990')
         return
+
+
+    //Ignora chamadas internas e apaga registros caso existam
+    if (callEvent.CalledExtension !== undefined) {
+
+        apagarRegistroTemp(idChamada)
+
+        return
+    }
+
+
+    //Awsner
+    if (callEvent.CallStatus === 'ANSWER') {
+
+        sql.connect(config, (err) => {
+            if (err) console.log(err)
+
+            let qry = `INSERT INTO ChamadasTemp (idChamada, dataHora)
+                        VALUES ('${idChamada}', GETDATE())`;
+
+            new sql.Request().query(qry, (err, result) => {
+                if (err) {
+                    console.log('')
+                    console.log('----------- Erro -----------')
+                    console.log(err)
+                    console.log('>>>>>> ' + qry)
+                    console.log('----------------------------')
+                }
+                else {
+                    console.log("Cadastrado na tabela temp")
+
+                }
+            })
+        })
+
+    }
+
+
+    //Hangup
+    if (callEvent.CallStatus == "HANGUP") {
+
+        let fonte = ''
+        let destino = ''
+        let lastapp = ''
+        let status = ''
+
+
+        if (callEvent.CallFlow == 'out') {  //Flow OUT
+            fonte = callEvent.CallerExtension.substring(5)
+            destino = callEvent.CalledNumber
+            lastapp = '1'
+
+        } else {                            //Flow IN
+            fonte = callEvent.CallerIDNum
+            destino = callEvent.CalledNumber.substring(5)
+            lastapp = '2'
+
+            status = 'R'
+        }
+
+
+
+        getDuracao(idChamada)
+            .then((duracao) => {
+
+                if ((duracao == 0) || (duracao == ''))
+                    return
+
+                if ((callEvent.CallFlow == 'out') && (duracao < 30))
+                    status = 'Z'
+
+
+
+                sql.connect(config, (err) => {
+                    if (err) console.log(err)
+                })
+                qry = ` INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, lastapp, disposition, status, codigoVendedor, codigoEntidade, obsChamada)
+                        VALUES (${callEvent.CallID.split('.')[0]}, GETDATE(), ${fonte}, ${destino}, ${duracao}, ${lastapp}, '', '${status}', ${getCodigoVendedor(callEvent)}, -1, '')`;
+                sql.query(qry, (err, result) => {
+                    if (err) {
+                        console.log('')
+                        console.log('----------- Erro -----------')
+                        console.log(err)
+                        console.log('\n>>>>>> ' + qry)
+                        console.log('----------------------------')
+                        return
+
+                    }
+
+                    apagarRegistroTemp(idChamada)
+
+                    console.log("Cadastrado na tabela final")
+
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+
 
 
 
     //
     //ANSWER
     //
-    if (callEvent.CallStatus == "ANSWER") {
+    /*if (callEvent.CallStatus == "ANSWER") {
         //const idChamada = callEvent.CallID.split('.')[0]
         const idChamada = callEvent.CallAPIID
 
@@ -293,8 +396,8 @@ function handleCall(callEvent, res) {
             })
 
 
-
-    }
+    
+    }*/
 
 
     res.send('OK')
