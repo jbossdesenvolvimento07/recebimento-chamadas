@@ -174,7 +174,7 @@ async function apagarRegistroTemp(idChamada) {
         sql.connect(config, (err) => {
             if (err) console.log(err)
         })
-        let qry = `DELETE FROM ChamadasTemp WHERE idChamada = ${idChamada}`
+        let qry = `DELETE FROM ChamadasTemp WHERE idChamada = '${idChamada}'`
         let result = await sql.query(qry, (err) => {
             if (err) {
                 console.log('')
