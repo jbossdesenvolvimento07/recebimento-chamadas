@@ -116,7 +116,7 @@ function getRequisicoes(res) {
 
 function getCodigoVendedor(callEvent) {
     let codigoVendedor = '-1'
-    let ramal
+    /*let ramal
     if (callEvent.CallFlow == 'out')
         ramal = callEvent.CallerExtension.substring(5)
     else
@@ -140,7 +140,7 @@ function getCodigoVendedor(callEvent) {
                 //codigoVendedor = result.recordset[0].codigoVendedor;
             }
         })
-    })
+    })*/
 
     return codigoVendedor
 }
