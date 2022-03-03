@@ -42,6 +42,8 @@ app.post('/', (req, res) => {
 
     handleCall(req.body, res);
 
+    cadastrarRequisicao(req.body)
+
 })
 
 
@@ -53,6 +55,33 @@ app.listen(port, () => {
         if (err) console.log(err)
     })
 })
+
+
+
+function cadastrarRequisicao(callEvent){
+    sql.connect(config, (err) => {
+        if (err) console.log(err)
+
+        let qry = `INSERT INTO ChamadasAPI (CallID, CallerIDNum, CallerIDName, CalledDID, CalledExtension, CallStatus, CallFlow, CallerExtension, CalledNumber, CallAPIID, timestamp)
+                    VALUES ('${callEvent.CallID}', '${callEvent.CallerIDNum}',  '${callEvent.CallerIDName}', '${callEvent.CalledDID}', '${callEvent.CalledExtension}', '${callEvent.CallStatus}', '${callEvent.CallFlow}', '${callEvent.CallerExtension}', '${callEvent.CalledNumber}', '${callEvent.CallAPIID}',GETDATE())`;
+
+        new sql.Request().query(qry, (err, result) => {
+            if (err) {
+                console.log('')
+                console.log('----------- Erro -----------')
+                console.log(err)
+                console.log('>>>>>> ' + qry)
+                console.log('----------------------------')
+            }
+            else {
+                console.log("Cadastrado na tabela API")
+
+            }
+        })
+    })
+}
+
+
 
 
 
