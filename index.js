@@ -173,7 +173,7 @@ function handleCall(callEvent, res) {
     if (callEvent.CallStatus == "HANGUP") {
         const idChamada = callEvent.CallID.split('.')[0];
 
-        if(callEvent.CallerIDNum === '9999')
+        if(callEvent.CallerIDNum === '9999' || callEvent.CallerIDNum === '9990')
             return
 
 
