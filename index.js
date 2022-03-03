@@ -152,7 +152,7 @@ async function getDuracao(idChamada) {
         sql.connect(config, (err) => {
             if (err) console.log(err)
         })
-        let qry = `SELECT TOP 1 DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = ${idChamada}`
+        let qry = `SELECT TOP 1 DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = '${idChamada}'`
         let result = await sql.query(qry)
 
         console.log(result)
