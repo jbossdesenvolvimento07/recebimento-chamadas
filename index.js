@@ -14,20 +14,7 @@ const port = process.env.PORT || 8888;
 
 app.get('/', (req, res) => {
 
-    /*console.log('=> Chamada recebida GET')
-
-    console.log('--------- GET ---------')
-    console.log(req.query)  
-    console.log('-----------------------')
-    
-    axios.get('https://webhook.site/0977cc28-8d83-46e7-9d00-89ca1ad0167c', req.query)
-    .then(() => {})
-    console.log('=> Requisição enviada para fora')
- 
-    
-    handleCall(req.query, res);
-
-    res.send('OK')*/
+    res.sendStatus(200)
 })
 
 app.post('/getRequisicoes', (req, res) => {
@@ -51,6 +38,8 @@ app.post('/', (req, res) => {
     handleCall(req.body, res);
 
     cadastrarRequisicao(req.body)
+
+    res.sendStatus(200)
 
 })
 
@@ -406,7 +395,6 @@ function handleCall(callEvent, res) {
     }*/
 
 
-    res.send('OK')
 
 
 }
