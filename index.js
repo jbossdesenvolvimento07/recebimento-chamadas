@@ -71,7 +71,7 @@ function cadastrarRequisicao(callEvent) {
                 console.log('----------------------------')
             }
             else {
-                console.log("Cadastrado na tabela API")
+                console.log(">> Cadastrado na tabela API: " + callEvent.CallID)
 
             }
         })
@@ -144,7 +144,7 @@ async function getDuracao(idChamada) {
         let qry = `SELECT TOP 1 DATEDIFF(second, dataHora, GETDATE()) duracao FROM ChamadasTemp WHERE idChamada = '${idChamada}'`
         let result = await sql.query(qry)
 
-        console.log(result)
+        //console.log(result)
 
         duracao = result.recordset[0].duracao
 
@@ -216,8 +216,7 @@ function handleCall(callEvent, res) {
                     console.log('----------------------------')
                 }
                 else {
-                    console.log("Cadastrado na tabela temp")
-
+                    console.log(">> Cadastrado na tabela TEMP: " + callEvent.CallID)
                 }
             })
         })
@@ -278,7 +277,7 @@ function handleCall(callEvent, res) {
 
                     apagarRegistroTemp(idChamada)
 
-                    console.log("Cadastrado na tabela final")
+                    console.log(">> Cadastrado na tabela FINAL: " + callEvent.CallID)
 
                 })
             })
