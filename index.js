@@ -399,13 +399,27 @@ function handleCall(callEvent, res) {
 }
 
 
-
-var config = {
+//Encopel
+/*var config = {
     user: 'jboss.consulta.06',
     password: 'consulta06@jboss',
     server: 'encopelx.no-ip.biz',
     port: 5023,
     database: 'JM2Online_OLD',
+    requestTimeout: 60000,
+    options: {
+        encrypt: false,
+        enableArithAbort: true
+    }
+};*/
+
+//Theval
+var config = {
+    user: 'jboss.consulta.06',
+    password: 'consulta06@jboss',
+    server: 'encopelx.no-ip.biz',
+    port: 5024,
+    database: 'JM2OnlineT_OLD',
     requestTimeout: 60000,
     options: {
         encrypt: false,
