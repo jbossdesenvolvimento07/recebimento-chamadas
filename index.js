@@ -204,8 +204,8 @@ function handleCall(callEvent, res) {
 
     //Ignora chamadas internas e apaga registros caso existam
     if (callEvent.CalledExtension) {
-
         apagarRegistroTemp(idChamada)
+        return
     }
 
 
