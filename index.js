@@ -310,7 +310,7 @@ var config = {
     password: 'consulta06@jboss',
     server: 'encopelx.no-ip.biz',
     port: 5024,
-    database: 'JM2OnlineT_OLD',
+    database: 'JM2OnlineT',
     requestTimeout: 60000,
     options: {
         encrypt: false,
