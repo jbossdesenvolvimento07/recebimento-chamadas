@@ -92,6 +92,7 @@ function getRequisicoes(res) {
                 "Access-Control-Allow-Origin": "*"
             });
 
+
             res.send(result.recordset)
         })
     })
@@ -152,6 +153,8 @@ async function getDuracao(idChamada) {
 
     } catch (err) {
 
+        
+
         throw (err)
 
     }
@@ -201,7 +204,7 @@ function handleCall(callEvent, res) {
     //Awsner
     if (callEvent.CallStatus === 'ANSWER') {
 
-        sql.connect(config, (err) => {
+        /*sql.connect(config, (err) => {
             if (err) console.log(err)
 
             let qry = `INSERT INTO ChamadasTemp (idChamada, dataHora)
@@ -219,6 +222,26 @@ function handleCall(callEvent, res) {
                     console.log(">> Cadastrado na tabela TEMP: " + callEvent.CallID)
                 }
             })
+        })*/
+
+        sql.connect(config, (err) => {
+            if (err) console.log(err)
+        })
+        qry = ` INSERT INTO ChamadasTemp (idChamada, dataHora)
+                VALUES ('${idChamada}', GETDATE())`;
+        sql.query(qry, (err, result) => {
+            if (err) {
+                console.log('')
+                console.log('----------- Erro -----------')
+                console.log(err)
+                console.log('\n>>>>>> ' + qry)
+                console.log('----------------------------')
+                return
+
+            }
+
+            console.log(">> Cadastrado na tabela TEMP: " + callEvent.CallID)
+
         })
 
     }
