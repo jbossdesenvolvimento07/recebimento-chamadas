@@ -263,7 +263,7 @@ function handleCall(callEvent, res) {
                     if (err) console.log(err)
                 })
                 qry = ` INSERT INTO Chamadas (idChamada, dataHora, fonte, destino, duracao, lastapp, disposition, status, codigoVendedor, codigoEntidade, obsChamada)
-                        VALUES (${callEvent.CallID.split('.')[0]}, GETDATE(), '${fonte}', '${destino}', ${duracao}, ${lastapp}, '', '${status}', ${getCodigoVendedor(callEvent)}, -1, '')`;
+                        VALUES (${callEvent.CallID.split('.')[0]}, CONVERT(DATETIME ,CONVERT(VARCHAR(20),GETDATE(),120)), '${fonte}', '${destino}', ${duracao}, ${lastapp}, '', '${status}', ${getCodigoVendedor(callEvent)}, -1, '')`;
                 sql.query(qry, (err, result) => {
                     if (err) {
                         console.log('')
