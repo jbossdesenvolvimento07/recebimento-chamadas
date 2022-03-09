@@ -261,9 +261,9 @@ function handleCall(callEvent, res) {
             fonte = callEvent.CallerExtension.substring(5)
 
             if(callEvent.CalledNumber.length > 10)
-                destino = callEvent.CalledNumber.substring(4)
+                destino = callEvent.CalledNumber.substring(callEvent.CalledNumber.length - 10)
             else
-                destino = callEvent.CalledNumber.substring(1)
+                destino = callEvent.CalledNumber.substring(callEvent.CalledNumber.length - 8)
             
             lastapp = '1'
 
