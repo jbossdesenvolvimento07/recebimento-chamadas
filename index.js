@@ -48,6 +48,7 @@ app.post('/', (req, res) => {
 app.listen(port, () => {
     console.log('Listening on port ' + port)
 
+
     global.con = sql.connect(config, (err) => {
         if (err) console.log(err)
     })
@@ -258,7 +259,12 @@ function handleCall(callEvent, res) {
 
         if (callEvent.CallFlow == 'out') {  //Flow OUT
             fonte = callEvent.CallerExtension.substring(5)
-            destino = callEvent.CalledNumber
+
+            if(callEvent.CalledNumber.length > 10)
+                destino = callEvent.CalledNumber.substring(4)
+            else
+                destino = callEvent.CalledNumber.substring(1)
+            
             lastapp = '1'
 
         } else {                            //Flow IN
