@@ -37,7 +37,7 @@ app.post('/', (req, res) => {
 
     handleCall(req.body, res);
 
-    //cadastrarRequisicao(req.body)
+    cadastrarRequisicao(req.body)
 
     res.sendStatus(200)
 
