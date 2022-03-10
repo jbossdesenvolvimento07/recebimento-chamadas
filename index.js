@@ -52,6 +52,7 @@ app.listen(port, () => {
     global.con = sql.connect(config, (err) => {
         if (err) console.log(err)
     })
+
 })
 
 
@@ -154,7 +155,7 @@ async function getDuracao(idChamada) {
 
     } catch (err) {
 
-        
+
 
         throw (err)
 
@@ -260,11 +261,11 @@ function handleCall(callEvent, res) {
         if (callEvent.CallFlow == 'out') {  //Flow OUT
             fonte = callEvent.CallerExtension.substring(5)
 
-            if(callEvent.CalledNumber.length > 10)
+            if (callEvent.CalledNumber.length >= 10)
                 destino = callEvent.CalledNumber.substring(callEvent.CalledNumber.length - 10)
             else
                 destino = callEvent.CalledNumber.substring(callEvent.CalledNumber.length - 8)
-            
+
             lastapp = '1'
 
         } else {                            //Flow IN
