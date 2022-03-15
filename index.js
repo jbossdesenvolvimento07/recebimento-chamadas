@@ -84,7 +84,7 @@ function getRequisicoes(res) {
     sql.connect(config, (err) => {
         if (err) console.log(err)
 
-        const qry = `SELECT * FROM ChamadasAPI ORDER BY timestamp`
+        const qry = `SELECT TOP 500 * FROM ChamadasAPI ORDER BY timestamp`
 
         new sql.Request().query(qry, (err, result) => {
 
