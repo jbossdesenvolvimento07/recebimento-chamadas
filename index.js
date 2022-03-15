@@ -84,7 +84,7 @@ function getRequisicoes(res) {
     sql.connect(config, (err) => {
         if (err) console.log(err)
 
-        const qry = `SELECT TOP 500 * FROM ChamadasAPI ORDER BY timestamp`
+        const qry = `SELECT TOP 100 * FROM ChamadasAPI ORDER BY timestamp DESC`
 
         new sql.Request().query(qry, (err, result) => {
 
@@ -267,6 +267,8 @@ function handleCall(callEvent, res) {
                 destino = callEvent.CalledNumber.substring(callEvent.CalledNumber.length - 8)
 
             lastapp = '1'
+
+            console.log('>>>>Numero para cadastrar: ' + destino)
 
         } else {                            //Flow IN
             fonte = callEvent.CallerIDNum
